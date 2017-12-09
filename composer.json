@@ -1,0 +1,21 @@
+{
+  "name": "jarzon/chatterbot",
+  "type": "project",
+  "autoload": {
+    "psr-4": {"Chatterbot\\": "src/"}
+  },
+  "config": {
+    "bin-dir": "bin",
+    "discard-changes": true
+  },
+  "require": {
+    "php": ">=7.0.0",
+    "jarzon/prim": "~0.7.0",
+    "jarzon/primutilities": "~0.10.0",
+    "robmorgan/phinx": "^0.6.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.2.*",
+    "phpunit/dbunit": ">=1.2"
+  }
+}

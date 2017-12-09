@@ -1,0 +1,6 @@
+{
+  "languages": ["en", "fr"],
+  "Welcome": ["Welcome", "Bienvenue"],
+  "page not found": ["Page not found", "Page introuvable"],
+  "url not found": ["We didn't found requested page: ", "Nous n'avons pas trouvé la page demandée: "]
+}

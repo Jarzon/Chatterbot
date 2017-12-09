@@ -1,0 +1,19 @@
+{
+  "name": "chatterbot",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jarzon/PrimBase.git"
+  },
+  "author": "Jarzon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jarzon/PrimBase/issues"
+  },
+  "homepage": "https://github.com/Jarzon/PrimBase#readme",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "primgulp": "^0.7.*"
+  }
+}

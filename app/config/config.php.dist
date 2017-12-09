@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Database config
+ */
+define('DB_ENABLE', true);
+define('DB_TYPE', 'mysql');
+define('DB_HOST', '127.0.0.1');
+define('DB_NAME', 'Chatterbot');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_CHARSET', 'utf8');
+
+/**
+ * Environment
+ */
+define('ENV', 'dev');
