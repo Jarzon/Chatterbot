@@ -14,4 +14,6 @@ require APP . 'config/config.php';
 
 $container = new Container(include(APP . '/config/container.php'));
 
+session_start();
+
 $app = new Application($container, $container->getController('Chatterbot\BasePack\Controller\Error'));

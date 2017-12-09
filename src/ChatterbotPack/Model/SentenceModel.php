@@ -1,5 +1,5 @@
 <?php
-namespace Omnishaven\ChatterbotPack\Model;
+namespace Chatterbot\ChatterbotPack\Model;
 
 class SentenceModel extends \Prim\Model
 {

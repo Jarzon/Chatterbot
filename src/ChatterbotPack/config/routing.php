@@ -1,5 +1,10 @@
 <?php
-$this->addGroup('/admin', function($r) {
+/** @var $this Prim\Router */
+$this->get('/login', 'ChatterbotPack\Home', 'index');
+
+$this->addGroup('/admin', function(Prim\Router $r) {
+    $r->both('/login', 'ChatterbotPack\Home', 'login');
+
     $r->get('/[{page:\d+}]', 'ChatterbotPack\Home', 'index');
     $r->post('/', 'ChatterbotPack\Home', 'addSentence');
 

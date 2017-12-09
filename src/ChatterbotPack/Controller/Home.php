@@ -1,10 +1,10 @@
 <?php
-namespace Omnishaven\ChatterbotPack\Controller;
+namespace Chatterbot\ChatterbotPack\Controller;
 
 use Prim\Controller;
 
-use Omnishaven\ChatterbotPack\Model\SentenceModel;
-use Omnishaven\BasePack\Service\Paginator;
+use Chatterbot\ChatterbotPack\Model\SentenceModel;
+use PrimUtilities\Paginator;
 
 /**
  * Class Sentences
@@ -12,16 +12,27 @@ use Omnishaven\BasePack\Service\Paginator;
  */
 class Home extends Controller
 {
-    function buildSentence()
+    /**
+     * PAGE: login
+     */
+    public function login()
     {
-        $this->loginVerification();
+        if(isset($_POST['password'])) {
+            if(strcmp($_POST['password'], 'Ijustlovekillingbotty') === 0) {
+                $_SESSION['auth'] = true;
+
+                header('location: /admin/');
+                exit();
+            }
+        }
+
+        $this->design('login');
     }
 
     public function loginVerification()
     {
         if(!$_SESSION['auth']) {
-            header('location: /login');
-            exit();
+            $this->redirect('/admin/login');
         }
     }
 
@@ -31,6 +42,8 @@ class Home extends Controller
      */
     public function index($page = 1)
     {
+        $this->loginVerification();
+
         $sentence = new SentenceModel($this->db);
 
         $lastId = $sentence->getConnectionLastId();
@@ -57,6 +70,8 @@ class Home extends Controller
      */
     public function addSentence()
     {
+        $this->loginVerification();
+
         // if we have POST data to create a new sentence entry
         if(isset($_POST['question'])) {
             $commonWords = [
@@ -115,6 +130,8 @@ class Home extends Controller
      */
     public function editQuestion($connectionId)
     {
+        $this->loginVerification();
+
         $sentence = new SentenceModel($this->db);
 
         $words = $sentence->getQuestionWords($connectionId);
@@ -185,6 +202,8 @@ class Home extends Controller
      */
     public function deleteSentence($sentence_id)
     {
+        $this->loginVerification();
+
         $sentence = new SentenceModel($this->db);
 
         if (isset($sentence_id)) {
