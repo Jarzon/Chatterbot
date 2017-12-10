@@ -36,6 +36,26 @@ class Home extends Controller
         }
     }
 
+    public function getWords($question) : array {
+        $question = strtolower($question);
+
+        $question = str_replace(['"', '\'', '.', '!', '?'], '', $question);
+
+        return explode(' ', $question);
+    }
+
+    public function getWordWeight($word) : int {
+        $commonWords = [
+            'he', 'and', 'a', 'to', 'is', 'you', 'that', 'it', 'he', 'for', 'as', 'with', 'his', 'they', 'I', 'at', 'this', 'or', 'one', 'by', 'but', 'not', 'what', 'we', 'an', 'your', 'she', 'her', 'him', 'their', 'if', 'there', 'out', 'them', 'these', 'so', 'my', 'than', 'its', 'us'
+        ];
+
+        $weight = 2;
+
+        if(in_array($word, $commonWords)) $weight--;
+
+        return $weight;
+    }
+
     /**
      * PAGE: index
      * @param int $page Current page
@@ -61,39 +81,21 @@ class Home extends Controller
 
         // if we have POST data to create a new sentence entry
         if(isset($_POST['submit_add_sentence'])) {
-            $commonWords = [
-                'he', 'and', 'a', 'to', 'is', 'you', 'that', 'it', 'he', 'for', 'as', 'with', 'his', 'they', 'I', 'at', 'this', 'or', 'one', 'by', 'but', 'not', 'what', 'we', 'an', 'your', 'she', 'her', 'him', 'their', 'if', 'there', 'out', 'them', 'these', 'so', 'my', 'than', 'its', 'us'
-            ];
 
-            $strip = ['"', '\''];
 
-            $words_list = [];
-
-            $question = $_POST['question'];
-
-            $question = str_replace($strip, '', $question);
-            $question = str_replace('!', '', $question, $countExclamation);
-            $question = str_replace('?', '', $question, $countInterrogation);
-            $question = str_replace('.', '', $question, $countInterrogation);
-
-            $words = explode(' ', $question);
-
-            $words = array_map('strtolower', $words);
+            $words = $this->getWords($_POST['question']);
 
             foreach($words as $word) {
                 if($word != null) {
                     $wordRes = $sentence->getWord($word);
 
-                    $weight = 2;
                     if($wordRes) {
                         $wordId = $wordRes->word_id;
                     } else {
                         $wordId = $sentence->addWord($word);
                     }
 
-                    if(in_array($word, $commonWords)) $weight = 1;
-
-                    $words_list[] = ['id' => $wordId, 'weight' => $weight];
+                    $words_list[] = ['id' => $wordId, 'weight' => $this->getWordWeight($word)];
                 }
             }
 
@@ -149,39 +151,20 @@ class Home extends Controller
             }
 
             if(!empty($_POST['response'])) {
-                $commonWords = [
-                    'he', 'of', 'and', 'a', 'to', 'in', 'is', 'you', 'that', 'it', 'he', 'was', 'for', 'on', 'are', 'as', 'with', 'his', 'they', 'I', 'at', 'be', 'this', 'have', 'from', 'or', 'one', 'had', 'by', 'word', 'but', 'not', 'what', 'all', 'were', 'we', 'when', 'your', 'can', 'said', 'there', 'use', 'an', 'each', 'which', 'she', 'do', 'how', 'their', 'if', 'will', 'up', 'there', 'about', 'out', 'many', 'then', 'them', 'these', 'so', 'some', 'her', 'would', 'make', 'like', 'him', 'into', 'time', 'has', 'look', 'two', 'more', 'write', 'go', 'see', 'number', 'no', 'way', 'could', 'people', 'my', 'than', 'first', 'important', 'been', 'call', 'who', 'oil', 'its', 'now', 'find', 'long', 'down', 'day', 'did', 'get', 'come', 'made', 'may', 'part', 'us', 'because'
-                ];
-
-                $strip = ['"', '\''];
-
-                $words_list = [];
-
-                $question = $_POST['question'];
-
-                $question = str_replace($strip, '', $question);
-                $question = str_replace('!', '', $question, $countExclamation);
-                $question = str_replace('?', '', $question, $countInterrogation);
-
-                $words = explode(' ', $question);
-
-                $words = array_map('strtolower', $words);
+                $words = $this->getWords($_POST['question']);
 
                 // Try to get the word in DB else create one
                 foreach($words as $word) {
                     if($word != null) {
                         $wordRes = $sentence->getWord($word);
-
-                        $weight = 2;
+                        
                         if($wordRes) {
                             $wordId = $wordRes->word_id;
                         } else {
                             $wordId = $sentence->addWord($word);
                         }
 
-                        if(in_array($word, $commonWords)) $weight = 1;
-
-                        $words_list[] = ['id' => $wordId, 'weight' => $weight];
+                        $words_list[] = ['id' => $wordId, 'weight' => $this->getWordWeight($word)];
                     }
                 }
 
