@@ -5,8 +5,7 @@ $this->get('/login', 'ChatterbotPack\Home', 'index');
 $this->addGroup('/admin', function(Prim\Router $r) {
     $r->both('/login', 'ChatterbotPack\Home', 'login');
 
-    $r->get('/[{page:\d+}]', 'ChatterbotPack\Home', 'index');
-    $r->post('/', 'ChatterbotPack\Home', 'addSentence');
+    $r->both('/[{page:\d+}]', 'ChatterbotPack\Home', 'index');
 
     $r->addRoute(['GET', 'POST'], '/edit/{sentence:\d+}', 'ChatterbotPack\Home', 'editQuestion');
 

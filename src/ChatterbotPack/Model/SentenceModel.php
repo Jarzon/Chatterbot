@@ -11,6 +11,41 @@ class SentenceModel extends \Prim\Model
         return $query->fetchAll();
     }
 
+    public function getResponse($words)
+    {
+
+
+        $qMarks = str_repeat('?,', count($words) - 1) . '?';
+        $words = array_merge($words, $words);
+
+        $query = $this->db->prepare("SELECT BS.sentence, BC.nb
+            FROM (
+                SELECT t.sentence_id, t.nb
+                FROM (
+                  SELECT BC.sentence_id, SUM(BC.weight) AS nb
+                  FROM bot_words BW
+                  LEFT JOIN bot_connection BC ON BW.word_id = BC.word_id
+                  WHERE word IN ($qMarks)
+                  GROUP BY BC.sentence_id
+                ) t
+                WHERE nb = (
+                  SELECT max(tt.nb) AS maximum
+                  FROM(
+                      SELECT BC.sentence_id, SUM(BC.weight) AS nb
+                      FROM bot_words BW
+                      LEFT JOIN bot_connection BC ON BW.word_id = BC.word_id
+                      WHERE word IN ($qMarks)
+                      GROUP BY BC.sentence_id
+                  ) tt
+              )
+            ) BC
+            LEFT JOIN bot_sentence BS ON BC.sentence_id = BS.sentence_id");
+
+        $query->execute($words);
+
+        return $query->fetchAll();
+    }
+
     public function getConnectionLastId()
     {
         $query = $this->db->prepare("SELECT MAX(connection_id) AS last_id FROM bot_connection");

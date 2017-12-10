@@ -46,41 +46,28 @@ class Home extends Controller
 
         $sentence = new SentenceModel($this->db);
 
-        $lastId = $sentence->getConnectionLastId();
-        $lastId = $lastId->last_id;
+        if(isset($_POST['submit_ask'])) {
+            $question = strtolower($_POST['question']);
 
-        // Pagination
-        $questionPerPage = 15;
+            $words = explode(' ', $question);
 
-        $paginator = new Paginator($page, $lastId, $questionPerPage, 5);
-        $page = $paginator->getPage();
-        $first = $paginator->getFirstPageElement();
-        $last = $paginator->getLast();
+            $wordCount = count($words);
 
-        $this->addVar('page', $page);
-        $this->addVar('sentences', $sentence->getQuestions($first, $last));
-        $this->addVar('pagination', $paginator->showPages());
-        
+            $response = $sentence->getResponse($words);
 
-        $this->design('index');
-    }
 
-    /**
-     * ACTION: addSentence
-     */
-    public function addSentence()
-    {
-        $this->loginVerification();
+
+            $this->addVar('wordCount', $wordCount);
+            $this->addVar('response', $response);
+        }
 
         // if we have POST data to create a new sentence entry
-        if(isset($_POST['question'])) {
+        if(isset($_POST['submit_add_sentence'])) {
             $commonWords = [
                 'he', 'of', 'and', 'a', 'to', 'in', 'is', 'you', 'that', 'it', 'he', 'was', 'for', 'on', 'are', 'as', 'with', 'his', 'they', 'I', 'at', 'be', 'this', 'have', 'from', 'or', 'one', 'had', 'by', 'word', 'but', 'not', 'what', 'all', 'were', 'we', 'when', 'your', 'can', 'said', 'there', 'use', 'an', 'each', 'which', 'she', 'do', 'how', 'their', 'if', 'will', 'up', 'there', 'about', 'out', 'many', 'then', 'them', 'these', 'so', 'some', 'her', 'would', 'make', 'like', 'him', 'into', 'time', 'has', 'look', 'two', 'more', 'write', 'go', 'see', 'number', 'no', 'way', 'could', 'people', 'my', 'than', 'first', 'important', 'been', 'call', 'who', 'oil', 'its', 'now', 'find', 'long', 'down', 'day', 'did', 'get', 'come', 'made', 'may', 'part', 'us', 'because'
             ];
 
             $strip = ['"', '\''];
-
-            $sentence = new SentenceModel($this->db);
 
             $words_list = [];
 
@@ -122,7 +109,25 @@ class Home extends Controller
             }
         }
 
-        $this->redirect('/botty/');
+        $lastId = $sentence->getConnectionLastId();
+        $lastId = $lastId->last_id;
+
+        if($lastId == null) $lastId = 0;
+
+        // Pagination
+        $questionPerPage = 15;
+
+        $paginator = new Paginator($page, $lastId, $questionPerPage, 5);
+        $page = $paginator->getPage();
+        $first = $paginator->getFirstPageElement();
+        $last = $paginator->getLast();
+
+        $this->addVar('page', $page);
+        $this->addVar('sentences', $sentence->getQuestions($first, $last));
+        $this->addVar('pagination', $paginator->showPages());
+        
+
+        $this->design('index');
     }
 
     /**
@@ -210,6 +215,6 @@ class Home extends Controller
             $sentence->deleteSentence($sentence_id);
         }
 
-        $this->redirect('/botty/');
+        $this->redirect('/admin/');
     }
 }

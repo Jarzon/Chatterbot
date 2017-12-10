@@ -1,8 +1,27 @@
 <h1>Botty's chatterbot</h1>
 
 <div>
+    <p>Ask a question question</p>
+    <form class="form-inline" method="POST">
+        <input type="text" name="question" id="question" value="" placeholder="Question" required><br/>
+
+        <?php
+        if(isset($response)) {
+            foreach ($response as $rep) {
+                $pourcentage = ($rep->nb * (100 / $wordCount));
+
+                echo "$rep->sentence | $pourcentage% <br>";
+            }
+        }
+        ?>
+
+        <input class="btn btn-default" type="submit" name="submit_ask" value="Ask">
+    </form>
+</div>
+
+<div>
     <p>Add a new question</p>
-    <form class="form-inline" action="/botty/" method="POST">
+    <form class="form-inline" method="POST">
         <input type="text" name="question" id="question" value="" placeholder="Question" required>
 
         <input type="text" name="response" id="response" value="" placeholder="Response" required>
@@ -26,7 +45,7 @@
                 <tr>
                     <td><?=$sentence['question']?></td>
                     <td><?=$sentence['sentence']?></td>
-                    <td><a href="/botty/edit/<?=$sentence['sentence_id']?>" class="btn btn-default">Edit</a></td>
+                    <td><a href="/admin/edit/<?=$sentence['sentence_id']?>" class="btn btn-default">Edit</a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
