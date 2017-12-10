@@ -13,8 +13,6 @@ class SentenceModel extends \Prim\Model
 
     public function getResponse($words)
     {
-
-
         $qMarks = str_repeat('?,', count($words) - 1) . '?';
         $words = array_merge($words, $words);
 
