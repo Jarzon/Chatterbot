@@ -74,6 +74,7 @@ class Home extends Controller
             $question = str_replace($strip, '', $question);
             $question = str_replace('!', '', $question, $countExclamation);
             $question = str_replace('?', '', $question, $countInterrogation);
+            $question = str_replace('.', '', $question, $countInterrogation);
 
             $words = explode(' ', $question);
 
