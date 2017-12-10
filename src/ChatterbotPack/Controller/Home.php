@@ -1,9 +1,11 @@
 <?php
 namespace Chatterbot\ChatterbotPack\Controller;
 
+use Prim\Container;
 use Prim\Controller;
 
 use Chatterbot\ChatterbotPack\Model\SentenceModel;
+use Prim\ViewInterface;
 use PrimUtilities\Paginator;
 
 /**
@@ -12,6 +14,13 @@ use PrimUtilities\Paginator;
  */
 class Home extends Controller
 {
+    function __construct(ViewInterface $view, Container $container)
+    {
+        parent::__construct($view, $container);
+
+        $this->setTemplate('design', 'ChatterbotPack');
+    }
+
     /**
      * PAGE: login
      */
@@ -147,7 +156,7 @@ class Home extends Controller
 
         if(isset($_POST['submit_edit_question'])) {
             if($response !== $_POST['response']) {
-                $sentence->updateSentence($responseId, $response);
+                $sentence->updateSentence($response, $responseId);
             }
 
             if(!empty($_POST['response'])) {
@@ -157,7 +166,7 @@ class Home extends Controller
                 foreach($words as $word) {
                     if($word != null) {
                         $wordRes = $sentence->getWord($word);
-                        
+
                         if($wordRes) {
                             $wordId = $wordRes->word_id;
                         } else {
@@ -169,7 +178,7 @@ class Home extends Controller
                 }
 
                 foreach($words_list as $word) {
-                    $sentence->addConnection($connectionId, $word['id'], $sentenceId, $word['weight']);
+                    $sentence->addConnection($connectionId, $word['id'], $responseId, $word['weight']);
                 }
             }
         }

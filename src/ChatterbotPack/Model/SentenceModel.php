@@ -59,7 +59,7 @@ class SentenceModel extends \Prim\Model
     {
         $sql = 'SELECT BC.sentence_id,
                   BS.sentence,
-                  GROUP_CONCAT(BW.word ORDER BY BW.word ASC SEPARATOR " ") AS question
+                  GROUP_CONCAT(BW.word ORDER BY BW.word_id ASC SEPARATOR " ") AS question
                 FROM bot_connection BC
                     LEFT JOIN bot_words BW ON BW.word_id = BC.word_id
                     LEFT JOIN bot_sentence BS ON BS.sentence_id = BC.sentence_id
