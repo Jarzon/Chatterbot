@@ -8,9 +8,9 @@
         <?php
         if(isset($response)) {
             foreach ($response as $rep) {
-                $pourcentage = ($rep->nb * (100 / $wordCount));
+                $pourcentage = ($rep->sumWeight * (100 / $wordCount));
 
-                echo "$rep->sentence | $pourcentage% <br>";
+                echo "$rep->sentence | $rep->totalConnections | $pourcentage% <br>";
             }
         }
         ?>
