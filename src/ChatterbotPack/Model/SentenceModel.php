@@ -15,25 +15,35 @@ class SentenceModel extends \Prim\Model
     {
         $qMarks = str_repeat('?,', count($words) - 1) . '?';
 
-        $query = $this->db->prepare("SELECT BS.sentence, BC.sumWeight, COUNT(BCT.sentence_id) AS totalConnections
+        $query = $this->db->prepare("SELECT t.sentence, t.sumWeight, t.totalConnections, t.totalWords
             FROM (
-               SELECT t.sentence_id, t.sumWeight
-               FROM (
-                   SELECT tt.sentence_id, tt.sumWeight, max(tt.sumWeight) AS maxWeight
+                SELECT BS.sentence, BC.sumWeight, COUNT(BCT.sentence_id) AS totalConnections, COUNT(BW.word_id) AS totalWords
+                FROM (
+                   SELECT t.sentence_id, t.sumWeight
                    FROM (
-                          SELECT BC.sentence_id, SUM(BC.weight) AS sumWeight
-                          FROM bot_words BW
-                            LEFT JOIN bot_connection BC ON BW.word_id = BC.word_id
-                          WHERE word IN ($qMarks)
-                          GROUP BY BC.sentence_id
-                        ) tt
-                 GROUP BY tt.sentence_id
-                    ) t
-               WHERE t.sumWeight = t.maxWeight
-             ) BC
-            LEFT JOIN bot_sentence BS ON BC.sentence_id = BS.sentence_id
-            LEFT JOIN bot_connection BCT ON BC.sentence_id = BCT.sentence_id
-            GROUP BY BCT.sentence_id");
+                       SELECT tt.sentence_id, tt.sumWeight, max(tt.sumWeight) AS maxWeight
+                       FROM (
+                              SELECT BC.sentence_id, SUM(BC.weight) AS sumWeight
+                              FROM bot_words BW
+                                LEFT JOIN bot_connection BC ON BW.word_id = BC.word_id
+                              WHERE word IN ($qMarks)
+                              GROUP BY BC.sentence_id
+                            ) tt
+                     GROUP BY tt.sentence_id
+                        ) t
+                   WHERE t.sumWeight = t.maxWeight
+                 ) BC
+                LEFT JOIN bot_sentence BS ON BS.sentence_id = BC.sentence_id
+                LEFT JOIN bot_connection BCT ON BCT.sentence_id = BC.sentence_id
+                LEFT JOIN bot_words BW ON BW.word_id = BCT.word_id AND word IN ($qMarks)
+                GROUP BY BCT.sentence_id
+                ORDER BY BC.sumWeight DESC
+            ) t
+            WHERE t.totalWords * (100 / t.totalConnections) > 50
+            GROUP BY t.sentence
+            ORDER BY t.totalWords * (100 / t.totalConnections) DESC");
+
+        $words = array_merge($words, $words);
 
         $query->execute($words);
 

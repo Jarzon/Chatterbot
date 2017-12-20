@@ -3,14 +3,14 @@
 <div>
     <p>Ask a question question</p>
     <form class="form-inline" method="POST">
-        <input type="text" name="question" id="question" value="" placeholder="Question" required><br/>
+        <input type="text" name="question" id="question" value="<?=isset($_POST['question'])? $_POST['question']: ''?>" placeholder="Question" required><br/>
 
         <?php
         if(isset($response)) {
             foreach ($response as $rep) {
-                $pourcentage = ($rep->sumWeight * (100 / $wordCount));
+                $pourcentage = ($rep->totalWords * (100 / $rep->totalConnections ));
 
-                echo "$rep->sentence | $rep->totalConnections | $pourcentage% <br>";
+                echo "$rep->sentence | $rep->totalWords | $rep->sumWeight | $pourcentage% <br>";
             }
         }
         ?>
