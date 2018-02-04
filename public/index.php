@@ -1,5 +1,5 @@
 <?php
-use Prim\Container;
+use Chatterbot\BasePack\Service\Container;
 
 session_start();
 

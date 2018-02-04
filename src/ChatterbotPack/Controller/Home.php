@@ -7,8 +7,13 @@ use Jarzon\Pagination;
 
 class Home extends Controller
 {
+    /** @var $sentenceHelper \Chatterbot\ChatterbotPack\Service\SentenceHelper */
+    protected $sentenceHelper;
+
     function build() {
         $this->setTemplate('design', 'ChatterbotPack');
+
+        $this->sentenceHelper = $this->container->getSentenceHelper();
     }
 
     public function login()
@@ -17,8 +22,7 @@ class Home extends Controller
             if(strcmp($_POST['password'], 'Ijustlovekillingbotty') === 0) {
                 $_SESSION['auth'] = true;
 
-                header('location: /admin/');
-                exit();
+                $this->redirect('/admin/');
             }
         }
 
@@ -32,50 +36,23 @@ class Home extends Controller
         }
     }
 
-    public function getWords($question) : array {
-        $question = strtolower($question);
-
-        $question = str_replace(['"', '\'', '.', '!', '?'], '', $question);
-
-        return explode(' ', $question);
-    }
-
-    public function getWordWeight($word) : int {
-        $commonWords = [
-            'he', 'and', 'a', 'to', 'is', 'you', 'that', 'it', 'he', 'for', 'as', 'with', 'his', 'they', 'I', 'at', 'this', 'or', 'one', 'by', 'but', 'not', 'what', 'we', 'an', 'your', 'she', 'her', 'him', 'their', 'if', 'there', 'out', 'them', 'these', 'so', 'my', 'than', 'its', 'us'
-        ];
-
-        $weight = 2;
-
-        if(in_array($word, $commonWords)) $weight--;
-
-        return $weight;
-    }
-
     public function index(int $page = 1)
     {
         $this->loginVerification();
 
+        /** @var \Chatterbot\ChatterbotPack\Model\SentenceModel $sentence */
         $sentence = $this->getModel('SentenceModel');
 
         if(isset($_POST['submit_ask'])) {
-            $question = strtolower($_POST['question']);
+            $words = $this->sentenceHelper->getWords($_POST['question']);
 
-            $words = explode(' ', $question);
-
-            $wordCount = count($words);
-
-            $response = $sentence->getResponse($words);
-
-            $this->addVar('wordCount', $wordCount);
-            $this->addVar('response', $response);
+            $this->addVar('wordCount', count($words));
+            $this->addVar('response', $sentence->getResponse($words));
         }
 
         // if we have POST data to create a new sentence entry
         if(isset($_POST['submit_add_sentence'])) {
-
-
-            $words = $this->getWords($_POST['question']);
+            $words = $this->sentenceHelper->getWords($_POST['question']);
 
             foreach($words as $word) {
                 if($word != null) {
@@ -87,7 +64,7 @@ class Home extends Controller
                         $wordId = $sentence->addWord($word);
                     }
 
-                    $words_list[] = ['id' => $wordId, 'weight' => $this->getWordWeight($word)];
+                    $words_list[] = ['id' => $wordId, 'weight' => $this->sentenceHelper->getWordWeight($word)];
                 }
             }
 
@@ -115,12 +92,11 @@ class Home extends Controller
         $first = $paginator->getFirstPageElement();
         $last = $paginator->getLast();
 
-        $this->addVar('page', $page);
-        $this->addVar('sentences', $sentence->getQuestions($first, $last));
-        $this->addVar('pagination', $paginator->showPages());
-        
-
-        $this->design('index');
+        $this->design('index', '', [
+            'page' => $page,
+            'sentences' => $sentence->getQuestions($first, $last),
+            'pagination' => $paginator->showPages(),
+        ]);
     }
 
     public function editQuestion(int $connectionId)

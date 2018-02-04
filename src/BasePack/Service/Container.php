@@ -1,13 +1,12 @@
 <?php
-namespace Libellum\BasePack\Service;
+namespace Chatterbot\BasePack\Service;
 
 use PrimPack\Container\Toolbar;
 use Jarzon\Container\Localization;
-use UserPack\Container\User;
 
 class Container extends \Prim\Container
 {
-    use Localization, User, Toolbar;
+    use Localization, Toolbar;
 
     /**
      * @return \Prim\Controller
@@ -32,7 +31,7 @@ class Container extends \Prim\Container
 
         $localization->setLanguage('fr');
 
-        return $this->init($obj, $this->getView(), $this, $this->options, $this->getUserService(), $localization, $toolbar);
+        return $this->init($obj, $this->getView(), $this, $this->options, $localization, $toolbar);
     }
 
     /**
@@ -46,6 +45,18 @@ class Container extends \Prim\Container
 
         $localization->setLanguage('fr');
 
-        return $this->init($obj, $this->getView(), $this, $this->options, $this->getUserService(), $localization);
+        return $this->init($obj, $this->getView(), $this, $this->options, $localization);
+    }
+
+    /**
+     * @return \Chatterbot\ChatterbotPack\Service\SentenceHelper
+     */
+    public function getSentenceHelper() : object
+    {
+        $obj = 'sentenceHelper';
+
+        $this->setDefaultParameter($obj, '\Chatterbot\ChatterbotPack\Service\SentenceHelper');
+
+        return $this->init($obj);
     }
 }
