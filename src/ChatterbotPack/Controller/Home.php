@@ -1,29 +1,16 @@
 <?php
 namespace Chatterbot\ChatterbotPack\Controller;
 
-use Prim\Container;
 use Prim\Controller;
 
-use Chatterbot\ChatterbotPack\Model\SentenceModel;
-use Prim\ViewInterface;
-use PrimUtilities\Paginator;
+use Jarzon\Pagination;
 
-/**
- * Class Sentences
- *
- */
 class Home extends Controller
 {
-    function __construct(ViewInterface $view, Container $container)
-    {
-        parent::__construct($view, $container);
-
+    function build() {
         $this->setTemplate('design', 'ChatterbotPack');
     }
 
-    /**
-     * PAGE: login
-     */
     public function login()
     {
         if(isset($_POST['password'])) {
@@ -65,15 +52,11 @@ class Home extends Controller
         return $weight;
     }
 
-    /**
-     * PAGE: index
-     * @param int $page Current page
-     */
-    public function index($page = 1)
+    public function index(int $page = 1)
     {
         $this->loginVerification();
 
-        $sentence = new SentenceModel($this->db);
+        $sentence = $this->getModel('SentenceModel');
 
         if(isset($_POST['submit_ask'])) {
             $question = strtolower($_POST['question']);
@@ -127,7 +110,7 @@ class Home extends Controller
         // Pagination
         $questionPerPage = 15;
 
-        $paginator = new Paginator($page, $lastId, $questionPerPage, 5);
+        $paginator = new Pagination($page, $lastId, $questionPerPage, 5);
         $page = $paginator->getPage();
         $first = $paginator->getFirstPageElement();
         $last = $paginator->getLast();
@@ -140,10 +123,7 @@ class Home extends Controller
         $this->design('index');
     }
 
-    /**
-     * ACTION: updateSentence
-     */
-    public function editQuestion($connectionId)
+    public function editQuestion(int $connectionId)
     {
         $this->loginVerification();
 
@@ -192,11 +172,7 @@ class Home extends Controller
         $this->design('edit');
     }
 
-    /**
-     * ACTION: deleteSentence
-     * @param int $sentence_id Id of the to-delete sentence
-     */
-    public function deleteSentence($sentence_id)
+    public function deleteSentence(int $sentence_id)
     {
         $this->loginVerification();
 

@@ -10,10 +10,8 @@
     "url": "https://github.com/Jarzon/PrimBase/issues"
   },
   "homepage": "https://github.com/Jarzon/PrimBase#readme",
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
-    "primgulp": "^0.7.*"
+    "primgulp": "^0.8.4"
   }
 }

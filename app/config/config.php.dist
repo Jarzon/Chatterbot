@@ -1,17 +1,21 @@
 <?php
+return [
+    'project_name' => 'Chatterbot',
 
-/**
- * Database config
- */
-define('DB_ENABLE', true);
-define('DB_TYPE', 'mysql');
-define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'Chatterbot');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_CHARSET', 'utf8');
+    'db_enable' => true,
+    'db_type' => 'mysql',
+    'db_host' => '127.0.0.1',
+    'db_name' => 'Chatterbot',
+    'db_user' => 'root',
+    'db_pass' => '',
+    'db_charset' => 'utf8',
 
-/**
- * Environment
- */
-define('ENV', 'dev');
+    'environment' => 'dev',
+    'debug' => true,
+
+    'error_mail' => 'j@masterj.net',
+    'error_mail_from' => 'Master J <j@masterj.net>',
+
+    'url_protocol' => !empty($_SERVER['HTTPS'])? 'https://': 'http://',
+    'url_domain' => $_SERVER['SERVER_NAME']
+];
