@@ -2,14 +2,14 @@
   "name": "chatterbot",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jarzon/PrimBase.git"
+    "url": "git+https://github.com/Jarzon/chatterbot.git"
   },
   "author": "Jarzon",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Jarzon/PrimBase/issues"
+    "url": "https://github.com/Jarzon/chatterbot/issues"
   },
-  "homepage": "https://github.com/Jarzon/PrimBase#readme",
+  "homepage": "https://github.com/Jarzon/chatterbot#readme",
   "dependencies": {},
   "devDependencies": {
     "primgulp": "^0.8.4"
