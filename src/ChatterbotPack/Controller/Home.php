@@ -7,8 +7,10 @@ use Jarzon\Pagination;
 
 class Home extends Controller
 {
-    /** @var $sentenceHelper \Chatterbot\ChatterbotPack\Service\SentenceHelper */
-    protected $sentenceHelper;
+    /**
+     * @var \Chatterbot\ChatterbotPack\Service\SentenceHelper $sentenceHelper
+     */
+    public $sentenceHelper;
 
     function build() {
         $this->setTemplate('design', 'ChatterbotPack');
@@ -31,7 +33,7 @@ class Home extends Controller
 
     public function loginVerification()
     {
-        if(!$_SESSION['auth']) {
+        if(empty($_SESSION['auth']) || !$_SESSION['auth']) {
             $this->redirect('/admin/login');
         }
     }
@@ -40,14 +42,14 @@ class Home extends Controller
     {
         $this->loginVerification();
 
-        /** @var \Chatterbot\ChatterbotPack\Model\SentenceModel $sentence */
-        $sentence = $this->getModel('SentenceModel');
+        /** @var \Chatterbot\ChatterbotPack\Model\SentenceModel $model */
+        $model = $this->getModel('SentenceModel');
 
         if(isset($_POST['submit_ask'])) {
             $words = $this->sentenceHelper->getWords($_POST['question']);
 
             $this->addVar('wordCount', count($words));
-            $this->addVar('response', $sentence->getResponse($words));
+            $this->addVar('response', $model->getResponse($words));
         }
 
         // if we have POST data to create a new sentence entry
@@ -56,30 +58,30 @@ class Home extends Controller
 
             foreach($words as $word) {
                 if($word != null) {
-                    $wordRes = $sentence->getWord($word);
+                    $wordRes = $model->getWord($word);
 
                     if($wordRes) {
                         $wordId = $wordRes->word_id;
                     } else {
-                        $wordId = $sentence->addWord($word);
+                        $wordId = $model->addWord($word);
                     }
 
                     $words_list[] = ['id' => $wordId, 'weight' => $this->sentenceHelper->getWordWeight($word)];
                 }
             }
 
-            $sentenceId = $sentence->addSentence($_POST['response']);
-            $lastId = $sentence->getConnectionLastId();
+            $sentenceId = $model->addSentence($_POST['response']);
+            $lastId = $model->getConnectionLastId();
             $lastId = $lastId->last_id;
 
             $connectionId = ($lastId + 1);
 
             foreach($words_list as $word) {
-                $sentence->addConnection($connectionId, $word['id'], $sentenceId, $word['weight']);
+                $model->addConnection($connectionId, $word['id'], $sentenceId, $word['weight']);
             }
         }
 
-        $lastId = $sentence->getConnectionLastId();
+        $lastId = $model->getConnectionLastId();
         $lastId = $lastId->last_id;
 
         if($lastId == null) $lastId = 0;
@@ -94,7 +96,7 @@ class Home extends Controller
 
         $this->design('index', '', [
             'page' => $page,
-            'sentences' => $sentence->getQuestions($first, $last),
+            'sentences' => $model->getQuestions($first, $last),
             'pagination' => $paginator->showPages(),
         ]);
     }
@@ -103,38 +105,39 @@ class Home extends Controller
     {
         $this->loginVerification();
 
-        $sentence = new SentenceModel($this->db);
+        /** @var \Chatterbot\ChatterbotPack\Model\SentenceModel $model */
+        $model = $this->getModel('SentenceModel');
 
-        $words = $sentence->getQuestionWords($connectionId);
+        $words = $model->getQuestionWords($connectionId);
 
         $response = $words[0]['sentence'];
         $responseId = $words[0]['sentence_id'];
 
         if(isset($_POST['submit_edit_question'])) {
             if($response !== $_POST['response']) {
-                $sentence->updateSentence($response, $responseId);
+                $model->updateSentence($response, $responseId);
             }
 
             if(!empty($_POST['response'])) {
-                $words = $this->getWords($_POST['question']);
+                $words = $this->sentenceHelper->getWords($_POST['question']);
 
                 // Try to get the word in DB else create one
                 foreach($words as $word) {
                     if($word != null) {
-                        $wordRes = $sentence->getWord($word);
+                        $wordRes = $model->getWord($word);
 
                         if($wordRes) {
                             $wordId = $wordRes->word_id;
                         } else {
-                            $wordId = $sentence->addWord($word);
+                            $wordId = $model->addWord($word);
                         }
 
-                        $words_list[] = ['id' => $wordId, 'weight' => $this->getWordWeight($word)];
+                        $words_list[] = ['id' => $wordId, 'weight' => $this->sentenceHelper->getWordWeight($word)];
                     }
                 }
 
                 foreach($words_list as $word) {
-                    $sentence->addConnection($connectionId, $word['id'], $responseId, $word['weight']);
+                    $model->addConnection($connectionId, $word['id'], $responseId, $word['weight']);
                 }
             }
         }
@@ -152,10 +155,11 @@ class Home extends Controller
     {
         $this->loginVerification();
 
-        $sentence = new SentenceModel($this->db);
+        /** @var \Chatterbot\ChatterbotPack\Model\SentenceModel $model */
+        $model = $this->getModel('SentenceModel');
 
         if (isset($sentence_id)) {
-            $sentence->deleteSentence($sentence_id);
+            $model->deleteSentence($sentence_id);
         }
 
         $this->redirect('/admin/');
