@@ -52,13 +52,13 @@ class Home extends Controller
             $this->addVar('response', $model->getResponse($words));
         }
 
+        $lastId = $model->getConnectionLastId();
+
         // if we have POST data to create a new sentence entry
         if(isset($_POST['submit_add_sentence'])) {
             $words = $this->sentenceHelper->getWords($_POST['question']);
 
             $sentenceId = $model->addSentence($_POST['response']);
-
-            $lastId = $model->getConnectionLastId();
 
             $connectionId = ($lastId + 1);
 
