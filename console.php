@@ -3,7 +3,7 @@
  * A scrapper for AIML documents
  */
 
-use Chatterbot\BasePack\Service\Container;
+use Chatterbot\ChatterbotPack\Service\Container;
 
 $root = dirname(__FILE__);
 

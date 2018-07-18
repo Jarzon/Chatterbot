@@ -1,9 +1,9 @@
 <?php
-namespace Chatterbot\BasePack\Controller;
+namespace Chatterbot\ChatterbotPack\Controller;
 
 use Prim\Controller;
 
-class Home extends Controller
+class Discord extends Controller
 {
     /**
      * @var \Chatterbot\ChatterbotPack\Service\SentenceHelper $sentenceHelper
@@ -16,7 +16,7 @@ class Home extends Controller
         $this->sentenceHelper = $this->container->getSentenceHelper();
     }
 
-    public function discord()
+    public function run()
     {
         $this->model = $this->getModel('SentenceModel', 'ChatterbotPack');
 

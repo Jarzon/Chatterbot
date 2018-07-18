@@ -2,6 +2,13 @@
 return [
     'project_name' => 'Chatterbot',
 
+    'backend_password' => '',
+
+    'discord_token' => '',
+    'discord_bot_name' => 'A bot'
+
+    // Database config
+
     'db_enable' => true,
     'db_type' => 'mysql',
     'db_host' => '127.0.0.1',
@@ -13,7 +20,7 @@ return [
     'environment' => 'dev',
     'debug' => true,
 
-    'email' => 'root@exeple.com',
+    'email' => 'root@exemple.com',
     'email_name' => '',
 
     'smtp_url' => '127.0.0.1',
@@ -21,14 +28,9 @@ return [
     'smtp_secure' => '',
     'smtp_password' => '',
 
-    'error_mail' => 'j@masterj.net',
-    'error_mail_from' => 'Master J <j@masterj.net>',
+    'error_mail' => 'root@exemple.com',
+    'error_mail_from' => 'Master J <root@exemple.com>',
 
     'url_protocol' => !empty($_SERVER['HTTPS'])? 'https://': 'http://',
     'url_domain' => $_SERVER['SERVER_NAME'],
-
-    'backend_password' => 'Ijustlovekillingbotty',
-
-    'discord_token' => '',
-    'discord_bot_name' => 'A bot'
 ];

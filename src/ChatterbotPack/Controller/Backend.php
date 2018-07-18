@@ -5,7 +5,7 @@ use Prim\Controller;
 
 use Jarzon\Pagination;
 
-class Home extends Controller
+class Backend extends Controller
 {
     /**
      * @var \Chatterbot\ChatterbotPack\Service\SentenceHelper $sentenceHelper

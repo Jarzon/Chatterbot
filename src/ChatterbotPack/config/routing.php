@@ -1,13 +1,13 @@
 <?php
 /** @var $this Prim\Router */
-$this->get('/', 'ChatterbotPack\Home', 'index');
+$this->get('/', 'ChatterbotPack\Backend', 'index');
 
 $this->addGroup('/admin', function(Prim\Router $r) {
-    $r->both('/login', 'ChatterbotPack\Home', 'login');
+    $r->addRoute(['GET', 'POST'], '/login', 'ChatterbotPack\Backend', 'login');
 
-    $r->both('/[{page:\d+}]', 'ChatterbotPack\Home', 'index');
+    $r->addRoute(['GET', 'POST'], '/[{page:\d+}]', 'ChatterbotPack\Backend', 'index');
 
-    $r->addRoute(['GET', 'POST'], '/edit/{sentence:\d+}', 'ChatterbotPack\Home', 'editQuestion');
+    $r->addRoute(['GET', 'POST'], '/edit/{sentence:\d+}', 'ChatterbotPack\Backend', 'editQuestion');
 
-    $r->get('/delete/{sentence:\d+}', 'ChatterbotPack\Home', 'deleteSentence');
+    $r->get('/delete/{sentence:\d+}', 'ChatterbotPack\Backend', 'deleteSentence');
 });

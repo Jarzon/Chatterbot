@@ -1,5 +1,5 @@
 <?php
-use Chatterbot\BasePack\Service\Container;
+use Chatterbot\ChatterbotPack\Service\Container;
 
 $root = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -21,6 +21,6 @@ if($config['db_enable']) {
     $db = $container->getPDO($config['db_type'], $config['db_host'], $config['db_name'], $config['db_charset'], $config['db_user'], $config['db_password'], $config['db_options']);
 }
 
-$controller = $container->getController('Chatterbot\BasePack\Controller\Home');
+$controller = $container->getController('Chatterbot\ChatterbotPack\Controller\Discord');
 
-$controller->discord();
+$controller->run();

@@ -1,5 +1,5 @@
 <?php
-use Chatterbot\BasePack\Service\Container;
+use Chatterbot\ChatterbotPack\Service\Container;
 
 session_start();
 

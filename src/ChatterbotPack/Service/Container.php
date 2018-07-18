@@ -1,5 +1,5 @@
 <?php
-namespace Chatterbot\BasePack\Service;
+namespace Chatterbot\ChatterbotPack\Service;
 
 use PrimPack\Container\Toolbar;
 use Jarzon\Container\Localization;
