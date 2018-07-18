@@ -1,6 +1,6 @@
 <?php
 /** @var $this Prim\Router */
-$this->get('/login', 'ChatterbotPack\Home', 'index');
+$this->get('/', 'ChatterbotPack\Home', 'index');
 
 $this->addGroup('/admin', function(Prim\Router $r) {
     $r->both('/login', 'ChatterbotPack\Home', 'login');
