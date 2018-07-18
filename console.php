@@ -1,4 +1,8 @@
 <?php
+/**
+ * A scrapper for AIML documents
+ */
+
 use Chatterbot\BasePack\Service\Container;
 
 $root = dirname(__FILE__);
