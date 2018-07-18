@@ -21,7 +21,7 @@ class Home extends Controller
     public function login()
     {
         if(isset($_POST['password'])) {
-            if(strcmp($_POST['password'], 'Ijustlovekillingbotty') === 0) {
+            if(strcmp($_POST['password'], $this->options['backend_password']) === 0) {
                 $_SESSION['auth'] = true;
 
                 $this->redirect('/admin/');

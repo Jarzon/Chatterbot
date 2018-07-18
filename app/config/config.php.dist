@@ -27,6 +27,8 @@ return [
     'url_protocol' => !empty($_SERVER['HTTPS'])? 'https://': 'http://',
     'url_domain' => $_SERVER['SERVER_NAME'],
 
+    'backend_password' => 'Ijustlovekillingbotty',
+
     'discord_token' => '',
     'discord_bot_name' => 'A bot'
 ];

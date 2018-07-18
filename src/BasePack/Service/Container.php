@@ -29,8 +29,6 @@ class Container extends \Prim\Container
 
         $localization = $this->getLocalizationService();
 
-        $localization->setLanguage('fr');
-
         return $this->init($obj, $this->getView(), $this, $this->options, $localization, $toolbar);
     }
 
@@ -42,8 +40,6 @@ class Container extends \Prim\Container
         $obj = 'errorController';
 
         $localization = $this->getLocalizationService();
-
-        $localization->setLanguage('fr');
 
         return $this->init($obj, $this->getView(), $this, $this->options, $localization);
     }
