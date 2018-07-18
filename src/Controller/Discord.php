@@ -3,14 +3,13 @@ namespace Chatterbot\Controller;
 
 class Discord
 {
-    /** @var \Chatterbot\Service\SentenceHelper $sentenceHelper */
-    public $sentenceHelper;
     /** @var \Chatterbot\Model\SentenceModel $model */
     public $model;
 
     public function __construct($model, $options)
     {
         $this->model = $model;
+        $this->options = $options;
     }
 
     public function run()
