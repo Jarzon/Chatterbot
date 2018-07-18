@@ -18,7 +18,7 @@ Now you should be done, you can use your own webserver or PHP `cd public; php -S
 
 ## Discord bot
 
-Create a discord bot account: [https://discordapp.com/](https://discordapp.com/).
+Create a discord bot account: [https://discordapp.com/](https://discordapp.com/developers/applications/me).
 
 Then add the bot token/name in app/config/config.php
 
