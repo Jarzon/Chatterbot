@@ -5,7 +5,7 @@ return [
     'db_enable' => true,
     'db_type' => 'mysql',
     'db_host' => '127.0.0.1',
-    'db_name' => 'Chatterbot',
+    'db_name' => 'chatterbot',
     'db_user' => 'root',
     'db_pass' => '',
     'db_charset' => 'utf8',
@@ -13,9 +13,20 @@ return [
     'environment' => 'dev',
     'debug' => true,
 
+    'email' => 'root@exeple.com',
+    'email_name' => '',
+
+    'smtp_url' => '127.0.0.1',
+    'smtp_port' => '25',
+    'smtp_secure' => '',
+    'smtp_password' => '',
+
     'error_mail' => 'j@masterj.net',
     'error_mail_from' => 'Master J <j@masterj.net>',
 
     'url_protocol' => !empty($_SERVER['HTTPS'])? 'https://': 'http://',
-    'url_domain' => $_SERVER['SERVER_NAME']
+    'url_domain' => $_SERVER['SERVER_NAME'],
+
+    'discord_token' => '',
+    'discord_bot_name' => 'A bot'
 ];
