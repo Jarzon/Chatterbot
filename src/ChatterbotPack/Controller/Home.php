@@ -82,9 +82,6 @@ class Home extends Controller
         }
 
         $lastId = $model->getConnectionLastId();
-        $lastId = $lastId->last_id;
-
-        if($lastId == null) $lastId = 0;
 
         // Pagination
         $questionPerPage = 15;
@@ -142,13 +139,12 @@ class Home extends Controller
             }
         }
 
-        $this->addVar('sentenceId', $responseId);
-        $this->addVar('sentence', $response);
-        $this->addVar('words', $words);
-        $this->addVar('id', $connectionId);
-
-
-        $this->design('edit');
+        $this->design('edit', 'ChatterbotPack', [
+            'sentenceId' => $responseId,
+            'sentence' => $response,
+            'words' => $words,
+            'id' => $connectionId,
+        ]);
     }
 
     public function deleteSentence(int $sentence_id)

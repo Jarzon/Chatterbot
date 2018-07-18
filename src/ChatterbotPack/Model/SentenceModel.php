@@ -55,7 +55,9 @@ class SentenceModel extends \Prim\Model
         $query = $this->prepare("SELECT MAX(connection_id) AS last_id FROM bot_connection");
         $query->execute();
 
-        return $query->fetch();
+        $result = $query->fetch();
+
+        return $result->last_id ?? 0;
     }
 
     /**
