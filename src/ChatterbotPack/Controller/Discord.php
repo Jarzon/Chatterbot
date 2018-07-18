@@ -27,8 +27,10 @@ class Discord extends Controller
 
             // Listen for events here
             $discord->on('message', function ($message) {
-                if($message->author->id !== $this->options['discord_bot_id'] && strpos($message->content, "@{$this->options['discord_bot_name']}")) {
-                    echo "Recieved a message from {$message->author->username}: {$message->content}", PHP_EOL;
+                echo "Recieved a message from {$message->author->username}: {$message->content}", PHP_EOL;
+
+                if($message->author->id !== $this->options['discord_bot_id'] && strpos($message->content, "<@{$this->options['discord_bot_id']}>")) {
+                    $message->content = str_replace("<@{$this->options['discord_bot_id']}>", '', $message->content);
 
                     $words = $this->sentenceHelper->getWords($message->content);
 
