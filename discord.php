@@ -1,26 +1,16 @@
 <?php
-use Chatterbot\ChatterbotPack\Service\Container;
-
 $root = __DIR__ . DIRECTORY_SEPARATOR;
 
 $config = [
-    'root' => $root,
-    'app' => "{$root}app/"
+    'root' => $root
 ];
 
-// Composer autoloading
+$config = (include("{$config['root']}config/config.php")) + $config;
+
 require "{$config['root']}vendor/autoload.php";
 
-$config = (include("{$config['app']}config/config.php")) + $config;
+$model = new Chatterbot\Model\SentenceModel($config);
 
-$container = new Container(include("{$config['app']}/config/container.php"), $config);
-
-$db = null;
-
-if($config['db_enable']) {
-    $db = $container->getPDO($config['db_type'], $config['db_host'], $config['db_name'], $config['db_charset'], $config['db_user'], $config['db_password'], $config['db_options']);
-}
-
-$controller = $container->getController('Chatterbot\ChatterbotPack\Controller\Discord');
+$controller = new Chatterbot\Controller\Discord($model, $config);
 
 $controller->run();

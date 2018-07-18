@@ -1,18 +1,16 @@
 <?php
-namespace Chatterbot\ChatterbotPack\Controller;
+namespace Chatterbot\Controller;
 
-use Prim\Controller;
-
-class Discord extends Controller
+class Discord
 {
-    /** @var \Chatterbot\ChatterbotPack\Service\SentenceHelper $sentenceHelper */
+    /** @var \Chatterbot\Service\SentenceHelper $sentenceHelper */
     public $sentenceHelper;
-    /** @var \Chatterbot\ChatterbotPack\Model\SentenceModel $model */
+    /** @var \Chatterbot\Model\SentenceModel $model */
     public $model;
 
-    function build() {
-        $this->sentenceHelper = $this->container->getSentenceHelper();
-        $this->model = $this->getModel('SentenceModel', 'ChatterbotPack');
+    public function __construct($model, $options)
+    {
+        $this->model = $model;
     }
 
     public function run()
@@ -31,7 +29,7 @@ class Discord extends Controller
                 if($message->author->id !== $this->options['discord_bot_id'] && strpos($message->content, "<@{$this->options['discord_bot_id']}>")) {
                     $message->content = str_replace("<@{$this->options['discord_bot_id']}>", '', $message->content);
 
-                    $words = $this->sentenceHelper->getWords($message->content);
+                    $words = $this->getWords($message->content);
 
                     $response = $this->model->getResponse($words);
 
@@ -44,5 +42,26 @@ class Discord extends Controller
         });
 
         $discord->run();
+    }
+
+    protected function getWords($question) : array {
+        $question = strtolower($question);
+
+        $question = str_replace(['"', '\'', '.', '!', '?'], '', $question);
+
+        return explode(' ', $question);
+    }
+
+    protected function getWordWeight($word) : int {
+        $weight = 2;
+
+        // List of common words that are used too often
+        $commonWords = [
+            'he', 'and', 'a', 'to', 'is', 'you', 'that', 'it', 'he', 'for', 'as', 'with', 'his', 'they', 'I', 'at', 'this', 'or', 'one', 'by', 'but', 'not', 'what', 'we', 'an', 'your', 'she', 'her', 'him', 'their', 'if', 'there', 'out', 'them', 'these', 'so', 'my', 'than', 'its', 'us'
+        ];
+
+        if(in_array($word, $commonWords)) $weight--;
+
+        return $weight;
     }
 }

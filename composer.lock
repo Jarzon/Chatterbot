@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "32731fc3edb20cd8bfa8d5735eb5df62",
+    "content-hash": "8507c2a7e183aff4220b773d1d4fee1e",
     "packages": [
         {
             "name": "TrafficCophp/ByteBuffer",
@@ -682,137 +682,6 @@
             "time": "2018-07-04T01:23:57+00:00"
         },
         {
-            "name": "jarzon/localization",
-            "version": "v0.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Jarzon/Localization.git",
-                "reference": "850f737690434fa5e78e26b14587cfa0f1360228"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Jarzon/Localization/zipball/850f737690434fa5e78e26b14587cfa0f1360228",
-                "reference": "850f737690434fa5e78e26b14587cfa0f1360228",
-                "shasum": ""
-            },
-            "require-dev": {
-                "jarzon/prim": "^0.12.0",
-                "phpunit/phpunit": "6.2.*"
-            },
-            "type": "project",
-            "autoload": {
-                "psr-4": {
-                    "Jarzon\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-04-09T22:48:04+00:00"
-        },
-        {
-            "name": "jarzon/pagination",
-            "version": "v0.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Jarzon/Pagination.git",
-                "reference": "ebd1ea6843cc64f17257c514f69236029f081e5b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Jarzon/Pagination/zipball/ebd1ea6843cc64f17257c514f69236029f081e5b",
-                "reference": "ebd1ea6843cc64f17257c514f69236029f081e5b",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": "6.2.*"
-            },
-            "type": "project",
-            "autoload": {
-                "psr-4": {
-                    "Jarzon\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-05-12T20:40:59+00:00"
-        },
-        {
-            "name": "jarzon/prim",
-            "version": "v0.12.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Jarzon/Prim.git",
-                "reference": "327f633a1a1f4e122d281f10795e78ce9daf9621"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Jarzon/Prim/zipball/327f633a1a1f4e122d281f10795e78ce9daf9621",
-                "reference": "327f633a1a1f4e122d281f10795e78ce9daf9621",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pdo": "*",
-                "nikic/fast-route": "1.2.*",
-                "php": ">=7.2.0"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "1.6.x",
-                "phpunit/phpunit": "6.2.*"
-            },
-            "type": "project",
-            "autoload": {
-                "psr-4": {
-                    "Prim\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jarzon",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Yet another PHP Framework",
-            "homepage": "https://github.com/jarzon/prim",
-            "keywords": [
-                "framework"
-            ],
-            "time": "2018-04-26T21:01:26+00:00"
-        },
-        {
-            "name": "jarzon/primpack",
-            "version": "v0.5.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Jarzon/PrimPack.git",
-                "reference": "66a191156b5c47639e3edf030ef99a87a4d4164b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Jarzon/PrimPack/zipball/66a191156b5c47639e3edf030ef99a87a4d4164b",
-                "reference": "66a191156b5c47639e3edf030ef99a87a4d4164b",
-                "shasum": ""
-            },
-            "require": {
-                "jarzon/prim": "^0.12.0",
-                "php": ">=7.2.0",
-                "swiftmailer/swiftmailer": "~5.4"
-            },
-            "require-dev": {
-                "phpunit/dbunit": "3.0.*",
-                "phpunit/phpunit": "6.1.*"
-            },
-            "type": "project",
-            "autoload": {
-                "psr-4": {
-                    "PrimPack\\": "/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-07-01T22:59:10+00:00"
-        },
-        {
             "name": "monolog/monolog",
             "version": "1.23.0",
             "source": {
@@ -944,49 +813,6 @@
                 "time"
             ],
             "time": "2018-07-05T06:59:26+00:00"
-        },
-        {
-            "name": "nikic/fast-route",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/FastRoute.git",
-                "reference": "b5f95749071c82a8e0f58586987627054400cdf6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/b5f95749071c82a8e0f58586987627054400cdf6",
-                "reference": "b5f95749071c82a8e0f58586987627054400cdf6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FastRoute\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nikita Popov",
-                    "email": "nikic@php.net"
-                }
-            ],
-            "description": "Fast request router for PHP",
-            "keywords": [
-                "router",
-                "routing"
-            ],
-            "time": "2017-01-19T11:35:12+00:00"
         },
         {
             "name": "psr/cache",
@@ -1886,60 +1712,6 @@
                 "copy file"
             ],
             "time": "2017-12-07T13:18:47+00:00"
-        },
-        {
-            "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "7ffc1ea296ed14bf8260b6ef11b80208dbadba91"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/7ffc1ea296ed14bf8260b6ef11b80208dbadba91",
-                "reference": "7ffc1ea296ed14bf8260b6ef11b80208dbadba91",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9.1",
-                "symfony/phpunit-bridge": "~3.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.4-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "lib/swift_required.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Corbyn"
-                },
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "Swiftmailer, free feature-rich PHP mailer",
-            "homepage": "https://swiftmailer.symfony.com",
-            "keywords": [
-                "email",
-                "mail",
-                "mailer"
-            ],
-            "time": "2018-01-23T07:37:21+00:00"
         },
         {
             "name": "symfony/config",

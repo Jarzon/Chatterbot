@@ -1,8 +1,0 @@
-{
-  "css": {
-    "files": {
-      "bootstrap.min.css": ["src/ChatterbotPack/assets/css/bootstrap.min.css"]
-    },
-    "destination": "public/css"
-  }
-}

@@ -14,16 +14,13 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>src/*Pack/tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
             <directory>src/</directory>
-            <exclude>
-                <directory>src/*Pack/assets</directory>
-            </exclude>
         </whitelist>
     </filter>
 </phpunit>

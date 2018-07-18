@@ -1,9 +1,21 @@
 <?php
-namespace Chatterbot\ChatterbotPack\Model;
+namespace Chatterbot\Model;
 
-class SentenceModel extends \Prim\Model
+class SentenceModel
 {
-    public function getAllSentences()
+    protected $db;
+
+    public function __construct($config)
+    {
+        $this->db = new \PDO("{$config['db_type']}:host={$config['db_host']};dbname={$config['db_name']};charset={$config['db_charset']}", $config['db_user'], $config['db_password'], $config['db_options']);
+    }
+
+    function prepare($query)
+    {
+        return $this->db->prepare($query);
+    }
+
+    function getAllSentences()
     {
         $query = $this->prepare("SELECT sentence_id, sentence FROM bot_sentence");
         $query->execute();
@@ -11,7 +23,7 @@ class SentenceModel extends \Prim\Model
         return $query->fetchAll();
     }
 
-    public function getResponse($words)
+    function getResponse($words)
     {
         $qMarks = str_repeat('?,', count($words) - 1) . '?';
 
@@ -50,7 +62,7 @@ class SentenceModel extends \Prim\Model
         return $query->fetchAll();
     }
 
-    public function getConnectionLastId()
+    function getConnectionLastId()
     {
         $query = $this->prepare("SELECT MAX(connection_id) AS last_id FROM bot_connection");
         $query->execute();
@@ -63,7 +75,7 @@ class SentenceModel extends \Prim\Model
     /**
      * Get all the question for the board
      */
-    public function getQuestions(int $first, int $last)
+    function getQuestions(int $first, int $last)
     {
         $query = $this->prepare('SELECT BC.sentence_id,
                   BS.sentence,
@@ -82,7 +94,7 @@ class SentenceModel extends \Prim\Model
     /**
      * Get all the words of a question
      */
-    public function getQuestionWords(int $id)
+    function getQuestionWords(int $id)
     {
         $query = $this->prepare('SELECT BW.word, BC.weight, BC.sentence_id, BS.sentence
                 FROM bot_connection BC
@@ -98,7 +110,7 @@ class SentenceModel extends \Prim\Model
     /**
      * Add a sentence to database
      */
-    public function addSentence(string $sentence)
+    function addSentence(string $sentence)
     {
         $query = $this->prepare("INSERT INTO bot_sentence (sentence) VALUES (?)");
 
@@ -110,7 +122,7 @@ class SentenceModel extends \Prim\Model
     /**
      * Add a sentence to database
      */
-    public function addWord(string $word)
+    function addWord(string $word)
     {
         $query = $this->prepare("INSERT INTO bot_words (word) VALUES (?)");
 
@@ -132,7 +144,7 @@ class SentenceModel extends \Prim\Model
     /**
      * Get a sentence from database
      */
-    public function getWord(string $word)
+    function getWord(string $word)
     {
         $query = $this->prepare('SELECT word_id FROM bot_words WHERE word = ? LIMIT 1');
 
@@ -144,7 +156,7 @@ class SentenceModel extends \Prim\Model
     /**
      * Add a sentence to database
      */
-    public function addConnection(int $connectionId, int $wordId, int $sentenceId, int $weight = 1)
+    function addConnection(int $connectionId, int $wordId, int $sentenceId, int $weight = 1)
     {
         $query = $this->prepare("INSERT INTO bot_connection (connection_id, word_id, sentence_id, weight) VALUES (?, ?, ?, ?)");
 
@@ -156,7 +168,7 @@ class SentenceModel extends \Prim\Model
     /**
      * Update a sentence in database
      */
-    public function updateSentence(string $sentence, int $sentence_id)
+    function updateSentence(string $sentence, int $sentence_id)
     {
         $query = $this->prepare("UPDATE bot_sentence SET sentence = ? WHERE sentence_id = ?");
 

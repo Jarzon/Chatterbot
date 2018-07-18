@@ -2,7 +2,7 @@
 
 ## Requirments
 
-- \> PHP 7.1
+- \> PHP 7.0
 - MySQL or MariaDB
 - [Composer](https://getcomposer.org/)
 
@@ -13,8 +13,6 @@ Run `composer install` to install the dependencies.
 Edit both `phinx.yml` and `app/config/config.php` to connect to your database.
 
 Then run `./bin/phinx migrate` to create the tables in your database.
-
-Now you should be done, you can use your own webserver or PHP `cd public; php -S localhost:8000` to access to the backend.
 
 ## Discord bot
 
