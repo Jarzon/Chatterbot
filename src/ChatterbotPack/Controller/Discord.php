@@ -12,12 +12,11 @@ class Discord extends Controller
 
     function build() {
         $this->sentenceHelper = $this->container->getSentenceHelper();
+        $this->model = $this->getModel('SentenceModel', 'ChatterbotPack');
     }
 
     public function run()
     {
-        $this->model = $this->getModel('SentenceModel', 'ChatterbotPack');
-
         $discord = new \Discord\Discord([
             'token' => $this->options['discord_token']
         ]);
@@ -37,6 +36,7 @@ class Discord extends Controller
                     $response = $this->model->getResponse($words);
 
                     if($response) {
+                        // TODO: Answer a random response If there is more that one
                         $message->channel->sendMessage($response[0]->sentence);
                     }
                 }

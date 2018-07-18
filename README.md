@@ -3,7 +3,7 @@
 ## Requirments
 
 - \> PHP 7.1
-- MySQL/MariaDB
+- MySQL or MariaDB
 - [Composer](https://getcomposer.org/)
 
 ## Installation
