@@ -56,6 +56,12 @@ class Home extends Controller
         if(isset($_POST['submit_add_sentence'])) {
             $words = $this->sentenceHelper->getWords($_POST['question']);
 
+            $sentenceId = $model->addSentence($_POST['response']);
+
+            $lastId = $model->getConnectionLastId();
+
+            $connectionId = ($lastId + 1);
+
             foreach($words as $word) {
                 if($word != null) {
                     $wordRes = $model->getWord($word);
@@ -66,22 +72,10 @@ class Home extends Controller
                         $wordId = $model->addWord($word);
                     }
 
-                    $words_list[] = ['id' => $wordId, 'weight' => $this->sentenceHelper->getWordWeight($word)];
+                    $model->addConnection($connectionId, $wordId, $sentenceId, $this->sentenceHelper->getWordWeight($word));
                 }
             }
-
-            $sentenceId = $model->addSentence($_POST['response']);
-            $lastId = $model->getConnectionLastId();
-            $lastId = $lastId->last_id;
-
-            $connectionId = ($lastId + 1);
-
-            foreach($words_list as $word) {
-                $model->addConnection($connectionId, $word['id'], $sentenceId, $word['weight']);
-            }
         }
-
-        $lastId = $model->getConnectionLastId();
 
         // Pagination
         $questionPerPage = 15;
