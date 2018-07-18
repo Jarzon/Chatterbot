@@ -10,9 +10,7 @@
 
 Run `composer install` to install the dependencies.
 
-Then copy/past app/config/config.php.dist to app/config/config.php and phinx.yml.dist to phinx.yml
-
-Edit both config files to connect to your database.
+Edit both `phinx.yml` and `app/config/config.php` to connect to your database.
 
 Then run `./bin/phinx migrate` to create the tables in your database.
 

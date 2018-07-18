@@ -5,7 +5,7 @@ return [
     'backend_password' => '',
 
     'discord_token' => '',
-    'discord_bot_name' => 'A bot'
+    'discord_bot_name' => 'A bot',
 
     // Database config
 
