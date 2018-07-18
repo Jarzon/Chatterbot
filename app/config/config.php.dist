@@ -29,7 +29,7 @@ return [
     'smtp_password' => '',
 
     'error_mail' => 'root@exemple.com',
-    'error_mail_from' => 'Master J <root@exemple.com>',
+    'error_mail_from' => 'root <root@exemple.com>',
 
     'url_protocol' => !empty($_SERVER['HTTPS'])? 'https://': 'http://',
     'url_domain' => $_SERVER['SERVER_NAME'],

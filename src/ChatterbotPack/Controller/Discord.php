@@ -5,11 +5,9 @@ use Prim\Controller;
 
 class Discord extends Controller
 {
-    /**
-     * @var \Chatterbot\ChatterbotPack\Service\SentenceHelper $sentenceHelper
-     * @var \Chatterbot\ChatterbotPack\Model\SentenceModel $model
-     */
+    /** @var \Chatterbot\ChatterbotPack\Service\SentenceHelper $sentenceHelper */
     public $sentenceHelper;
+    /** @var \Chatterbot\ChatterbotPack\Model\SentenceModel $model */
     public $model;
 
     function build() {
