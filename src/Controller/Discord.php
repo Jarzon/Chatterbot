@@ -45,6 +45,29 @@ class Discord
         $discord->run();
     }
 
+    public function addSentence($question, $response)
+    {
+        $sentenceId = $this->model->addSentence($response);
+
+        $connectionId = ($this->model->getConnectionLastId() + 1);
+
+        $words = $this->model->getWords($question);
+
+        foreach($words as $word) {
+            if($word != null) {
+                $wordRes = $this->model->getWord($word);
+
+                if($wordRes) {
+                    $wordId = $wordRes->word_id;
+                } else {
+                    $wordId = $this->model->addWord($word);
+                }
+
+                $this->model->addConnection($connectionId, $wordId, $sentenceId, $this->model->getWordWeight($word));
+            }
+        }
+    }
+
     protected function isNotSelfMessage($message)
     {
         return $message->author->id !== $this->options['discord_bot_id'];

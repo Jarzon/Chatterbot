@@ -10,11 +10,6 @@ class SentenceModel
         $this->db = new \PDO("{$config['db_type']}:host={$config['db_host']};dbname={$config['db_name']};charset={$config['db_charset']}", $config['db_user'], $config['db_password'], $config['db_options']);
     }
 
-    function prepare($query)
-    {
-        return $this->db->prepare($query);
-    }
-
     function getAllSentences()
     {
         $query = $this->prepare("SELECT sentence_id, sentence FROM bot_sentence");
@@ -177,7 +172,7 @@ class SentenceModel
         $query->execute([$sentence, $sentence_id]);
     }
 
-    protected function getWords($question) : array {
+    function getWords($question) : array {
         $question = strtolower($question);
 
         $question = str_replace(['"', '\'', '.', '!', '?'], '', $question);
@@ -185,7 +180,7 @@ class SentenceModel
         return explode(' ', $question);
     }
 
-    protected function getWordWeight($word) : int {
+    function getWordWeight($word) : int {
         $weight = 2;
 
         // List of common words that are used too often
@@ -196,5 +191,10 @@ class SentenceModel
         if(in_array($word, $commonWords)) $weight--;
 
         return $weight;
+    }
+
+    function prepare($query)
+    {
+        return $this->db->prepare($query);
     }
 }
