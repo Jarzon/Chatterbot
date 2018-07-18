@@ -23,8 +23,10 @@ class SentenceModel
         return $query->fetchAll();
     }
 
-    function getResponse($words)
+    function getResponse($message)
     {
+        $words = $this->getWords($message);
+
         $qMarks = str_repeat('?,', count($words) - 1) . '?';
 
         $query = $this->prepare("SELECT t.sentence, t.sumWeight, t.totalConnections, t.totalWords
@@ -173,5 +175,26 @@ class SentenceModel
         $query = $this->prepare("UPDATE bot_sentence SET sentence = ? WHERE sentence_id = ?");
 
         $query->execute([$sentence, $sentence_id]);
+    }
+
+    protected function getWords($question) : array {
+        $question = strtolower($question);
+
+        $question = str_replace(['"', '\'', '.', '!', '?'], '', $question);
+
+        return explode(' ', $question);
+    }
+
+    protected function getWordWeight($word) : int {
+        $weight = 2;
+
+        // List of common words that are used too often
+        $commonWords = [
+            'he', 'and', 'a', 'to', 'is', 'you', 'that', 'it', 'he', 'for', 'as', 'with', 'his', 'they', 'I', 'at', 'this', 'or', 'one', 'by', 'but', 'not', 'what', 'we', 'an', 'your', 'she', 'her', 'him', 'their', 'if', 'there', 'out', 'them', 'these', 'so', 'my', 'than', 'its', 'us'
+        ];
+
+        if(in_array($word, $commonWords)) $weight--;
+
+        return $weight;
     }
 }

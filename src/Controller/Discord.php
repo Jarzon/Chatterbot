@@ -25,12 +25,14 @@ class Discord
             $discord->on('message', function ($message) {
                 echo "Recieved a message from {$message->author->username}: {$message->content}", PHP_EOL;
 
-                if($message->author->id !== $this->options['discord_bot_id'] && strpos($message->content, "<@{$this->options['discord_bot_id']}>")) {
-                    $message->content = str_replace("<@{$this->options['discord_bot_id']}>", '', $message->content);
+                $isMentioned = $this->isMentioned($message);
 
-                    $words = $this->getWords($message->content);
+                if($this->isNotSelfMessage($message) && ($isMentioned || $this->isPrivateChanel($message))) {
+                    if($isMentioned) {
+                        $message->content = $this->removeMention($message);
+                    }
 
-                    $response = $this->model->getResponse($words);
+                    $response = $this->model->getResponse($message->content);
 
                     if($response) {
                         // TODO: Answer a random response If there is more that one
@@ -43,24 +45,23 @@ class Discord
         $discord->run();
     }
 
-    protected function getWords($question) : array {
-        $question = strtolower($question);
-
-        $question = str_replace(['"', '\'', '.', '!', '?'], '', $question);
-
-        return explode(' ', $question);
+    protected function isNotSelfMessage($message)
+    {
+        return $message->author->id !== $this->options['discord_bot_id'];
     }
 
-    protected function getWordWeight($word) : int {
-        $weight = 2;
+    protected function isMentioned($message)
+    {
+        return strpos($message->content, "<@{$this->options['discord_bot_id']}>");
+    }
 
-        // List of common words that are used too often
-        $commonWords = [
-            'he', 'and', 'a', 'to', 'is', 'you', 'that', 'it', 'he', 'for', 'as', 'with', 'his', 'they', 'I', 'at', 'this', 'or', 'one', 'by', 'but', 'not', 'what', 'we', 'an', 'your', 'she', 'her', 'him', 'their', 'if', 'there', 'out', 'them', 'these', 'so', 'my', 'than', 'its', 'us'
-        ];
+    protected function removeMention($message)
+    {
+        return str_replace("<@{$this->options['discord_bot_id']}>", '', $message->content);
+    }
 
-        if(in_array($word, $commonWords)) $weight--;
-
-        return $weight;
+    protected function isPrivateChanel($message)
+    {
+        return $message->author->guild_id === null;
     }
 }
