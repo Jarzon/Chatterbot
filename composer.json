@@ -26,7 +26,7 @@
   },
   "extra": {
     "copy-file": {
-      "app/config/config.php.dist": "app/config/config.php",
+      "config/config.php.dist": "config/config.php",
       "phinx.yml.dist": "phinx.yml"
     },
 

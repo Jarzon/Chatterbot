@@ -45,7 +45,7 @@ class Discord
         $discord->run();
     }
 
-    public function addSentence($question, $response)
+    public function addSentenceCommand($question, $response)
     {
         $sentenceId = $this->model->addSentence($response);
 
