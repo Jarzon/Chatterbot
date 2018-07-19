@@ -6,7 +6,7 @@ return [
     // Database config
 
     'db_enable' => true,
-    'db_type' => 'mysql',
+    'db_type' => 'sqlite',
     'db_host' => '127.0.0.1',
     'db_name' => 'chatterbot',
     'db_user' => 'root',

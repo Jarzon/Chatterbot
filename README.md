@@ -3,7 +3,7 @@
 ## Requirments
 
 - \> PHP 7.0
-- MySQL or MariaDB
+- PDO enabled
 - [Composer](https://getcomposer.org/)
 
 ## Installation

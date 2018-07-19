@@ -7,7 +7,13 @@ class SentenceModel
 
     public function __construct($config)
     {
-        $this->db = new \PDO("{$config['db_type']}:host={$config['db_host']};dbname={$config['db_name']};charset={$config['db_charset']}", $config['db_user'], $config['db_password'], $config['db_options']);
+        $dns = "{$config['db_type']}:host={$config['db_host']};dbname={$config['db_name']};charset={$config['db_charset']}";
+
+        if($config['db_type'] === 'sqlite') {
+            $dns = "{$config['db_type']}:{$config['db_name']}";
+        }
+
+        $this->db = new \PDO($dns, $config['db_user'], $config['db_password'], $config['db_options']);
     }
 
     function getAllSentences()
@@ -23,6 +29,9 @@ class SentenceModel
         $words = $this->getWords($message);
 
         $qMarks = str_repeat('?,', count($words) - 1) . '?';
+
+        // The query is selecting words then making connection from those words to responses.
+        // The responses that have the higher number of connection is selected
 
         $query = $this->prepare("SELECT t.sentence, t.sumWeight, t.totalConnections, t.totalWords
             FROM (

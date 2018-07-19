@@ -32,11 +32,27 @@ class Discord
                         $message->content = $this->removeMention($message);
                     }
 
-                    $response = $this->model->getResponse($message->content);
+                    // Commands
+                    if(strpos($message->content, 'add_question') !== false) {
+                        $message->content = trim(str_replace('add_question', '', $message->content));
 
-                    if($response) {
-                        // TODO: Answer a random response If there is more that one
-                        $message->channel->sendMessage($response[0]->sentence);
+                        $this->question = $message->content;
+
+                        $message->channel->sendMessage('Got it. What should I respond?');
+                    }
+                    else if(strpos($message->content, 'add_response') !== false) {
+                        $message->content = trim(str_replace('add_response', '', $message->content));
+
+                        $this->addSentenceCommand($this->question, $message->content);
+
+                        $message->channel->sendMessage('The response have been added.');
+                    } else {
+                        $response = $this->model->getResponse($message->content);
+
+                        if($response) {
+                            // TODO: Answer a random response If there is more that one
+                            $message->channel->sendMessage($response[0]->sentence);
+                        }
                     }
                 }
             });
