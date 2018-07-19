@@ -27,29 +27,24 @@ class Discord
 
                 $isMentioned = $this->isMentioned($message);
 
-                if($this->isNotSelfMessage($message) && ($isMentioned || $this->isPrivateChanel($message))) {
-                    if($isMentioned) {
+                if ($this->isNotSelfMessage($message) && ($isMentioned || $this->isPrivateChanel($message))) {
+                    if ($isMentioned) {
                         $message->content = $this->removeMention($message);
                     }
 
                     // Commands
-                    if(strpos($message->content, 'add_question') !== false) {
-                        $message->content = trim(str_replace('add_question', '', $message->content));
-
-                        $this->question = $message->content;
+                    if ($this->containCommand($message->content, 'add_question')) {
+                        $this->question = $this->removeCommand($message->content, 'add_question');
 
                         $message->channel->sendMessage('Got it. What should I respond?');
-                    }
-                    else if(strpos($message->content, 'add_response') !== false) {
-                        $message->content = trim(str_replace('add_response', '', $message->content));
-
-                        $this->addSentenceCommand($this->question, $message->content);
+                    } else if ($this->containCommand($message->content, 'add_response')) {
+                        $this->addSentenceCommand($this->removeCommand($message->content, 'add_question'), $message->content);
 
                         $message->channel->sendMessage('The response have been added.');
                     } else {
                         $response = $this->model->getResponse($message->content);
 
-                        if($response) {
+                        if ($response) {
                             // TODO: Answer a random response If there is more that one
                             $message->channel->sendMessage($response[0]->sentence);
                         }
@@ -69,11 +64,11 @@ class Discord
 
         $words = $this->model->getWords($question);
 
-        foreach($words as $word) {
-            if($word != null) {
+        foreach ($words as $word) {
+            if ($word != null) {
                 $wordRes = $this->model->getWord($word);
 
-                if($wordRes) {
+                if ($wordRes) {
                     $wordId = $wordRes->word_id;
                 } else {
                     $wordId = $this->model->addWord($word);
@@ -82,6 +77,16 @@ class Discord
                 $this->model->addConnection($connectionId, $wordId, $sentenceId, $this->model->getWordWeight($word));
             }
         }
+    }
+
+    protected function removeCommand($message, $command)
+    {
+        return trim(str_replace($command, '', $message));
+    }
+
+    protected function containCommand($message, $command)
+    {
+        return (strpos($message, $command) !== false);
     }
 
     protected function isNotSelfMessage($message)
